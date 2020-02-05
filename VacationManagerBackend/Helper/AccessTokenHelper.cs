@@ -38,5 +38,16 @@ namespace VacationManagerBackend.Helper
 
             return false;
         }
+
+        public AccessTokenPayload GetTokenPayload(string accessToken)
+        {
+            if (IsTokenValid(accessToken))
+            {
+                var parser = new JsonWebToken<AccessTokenPayload>.Parser(accessToken);
+                return parser.GetPayload();
+            }
+
+            return null;
+        }
     }
 }
