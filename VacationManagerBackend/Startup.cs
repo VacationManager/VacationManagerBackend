@@ -6,7 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using VacationManagerBackend.Helper;
+using VacationManagerBackend.Interfaces.Helper;
+using VacationManagerBackend.Interfaces.Repositories;
 using VacationManagerBackend.Models.Config;
+using VacationManagerBackend.Repositories;
 
 namespace VacationManagerBackend
 {
@@ -25,6 +29,9 @@ namespace VacationManagerBackend
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<DbConfig>(Configuration.GetSection("DbConfig"));
+
+            services.AddSingleton<IAccessTokenHelper, AccessTokenHelper>();
+            services.AddSingleton<IUserRepository, UserRepository>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

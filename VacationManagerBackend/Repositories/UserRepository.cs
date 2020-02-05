@@ -2,11 +2,12 @@
 using LoggerLibrary.Extension;
 using Microsoft.Extensions.Logging;
 using VacationManagerBackend.Interfaces.Helper;
+using VacationManagerBackend.Interfaces.Repositories;
 using VacationManagerBackend.Models;
 
 namespace VacationManagerBackend.Repositories
 {
-    public class UserRepository
+    public class UserRepository : IUserRepository
     {
         ILogger _logger;
         IDbHelper _dbHelper;
