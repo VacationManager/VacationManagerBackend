@@ -6,5 +6,6 @@ namespace VacationManagerBackend.Interfaces.Helper
     {
         string GenerateAccessToken(AccessTokenPayload tokenPayload);
         bool IsTokenValid(string accessToken);
+        AccessTokenPayload GetTokenPayload(string accessToken);
     }
 }
