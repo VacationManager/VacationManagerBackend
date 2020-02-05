@@ -61,4 +61,8 @@
     <Folder Include="Stored Procedures" />
     <Folder Include="Views" />
   </ItemGroup>
+  <ItemGroup>
+    <Build Include="Tables\User.sql" />
+    <Build Include="Tables\Department.sql" />
+  </ItemGroup>
 </Project>
