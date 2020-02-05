@@ -1,4 +1,5 @@
-﻿using Trivial.Security;
+﻿using System;
+using Trivial.Security;
 using VacationManagerBackend.Interfaces.Helper;
 using VacationManagerBackend.Models;
 
@@ -24,10 +25,14 @@ namespace VacationManagerBackend.Helper
                 try
                 {
                     var parser = new JsonWebToken<AccessTokenPayload>.Parser(accessToken);
+                    var payload = parser.GetPayload();
                     var sign = HashSignatureProvider.CreateHS256(secret);
                     var isValid = parser.Verify(sign);
 
-                    return isValid;
+                    var remainingExpDurationS = (payload.ExpirationDate - DateTime.UtcNow).TotalSeconds;
+
+                    if (isValid && remainingExpDurationS > 0)
+                        return true;
                 }
 
                 catch
