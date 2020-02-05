@@ -29,13 +29,12 @@ namespace VacationManagerBackend
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<DbConfig>(Configuration.GetSection("DbConfig"));
-            services.AddHttpContextAccessor();
 
             services.AddSingleton<IDbHelper, DbHelper>();
             services.AddSingleton<IAccessTokenHelper, AccessTokenHelper>();
-            services.AddSingleton<IAccessTokenProvider, AccessTokenProvider>();
-            services.AddSingleton<IVacationRepository, VacationRepository>();
+
             services.AddSingleton<IUserRepository, UserRepository>();
+            services.AddSingleton<IDepartmentRepository, DepartmentRepository>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
