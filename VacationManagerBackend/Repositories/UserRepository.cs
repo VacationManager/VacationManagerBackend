@@ -41,10 +41,7 @@ namespace VacationManagerBackend.Repositories
 
                 var foundUser = conn.QueryFirstOrDefault<User>(query, dParams);
 
-                _logger.Info("Get User result", new
-                {
-                    foundUser = foundUser != null ? foundUser.GetSecureUser() : null
-                });
+                _logger.Info("Get User result", new { foundUser });
 
                 return foundUser;
             }
