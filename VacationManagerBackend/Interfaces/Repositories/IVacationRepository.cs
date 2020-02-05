@@ -1,4 +1,5 @@
-﻿using VacationManagerBackend.Models;
+﻿using System.Collections.Generic;
+using VacationManagerBackend.Models;
 
 namespace VacationManagerBackend.Interfaces.Repositories
 {
@@ -6,5 +7,6 @@ namespace VacationManagerBackend.Interfaces.Repositories
     {
         VacationRequest GetVacationRequest(int id);
         void CreateVacationRequest(VacationRequest vacationRequest);
+        List<VacationRequest> GetUserVacationRequests(int userId);
     }
 }
