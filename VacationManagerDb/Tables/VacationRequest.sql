@@ -6,6 +6,7 @@
 	[EndTime] DATETIME2 NOT NULL,
 	[Duration] INT NOT NULL,
 	[RequestState] TINYINT NOT NULL DEFAULT 0,
+	[Annotation] NVARCHAR(MAX) NULL,
 	[CreationTime] DATETIME2 NOT NULL DEFAULT GETUTCDATE(),
 	[DeleteTime] DATETIME2 NULL
 )
