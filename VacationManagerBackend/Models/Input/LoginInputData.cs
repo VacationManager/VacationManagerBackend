@@ -1,4 +1,4 @@
-﻿namespace VacationManagerBackend.Models
+﻿namespace VacationManagerBackend.Models.Input
 {
     public class LoginInputData
     {

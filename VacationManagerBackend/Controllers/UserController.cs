@@ -1,10 +1,10 @@
 ﻿using LoggerLibrary.Extension;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using VacationManagerBackend.Interfaces.Helper;
 using VacationManagerBackend.Interfaces.Repositories;
 using VacationManagerBackend.Models;
+using VacationManagerBackend.Models.Input;
 
 namespace VacationManagerBackend.Controllers
 {
@@ -14,15 +14,38 @@ namespace VacationManagerBackend.Controllers
         ILogger _logger;
         IUserRepository _userRepository;
         IAccessTokenHelper _accessTokenHelper;
+        IAccessTokenProvider _accessTokenProvider;
 
         public UserController(
             ILogger<UserController> logger,
             IUserRepository userRepository,
-            IAccessTokenHelper accessTokenHelper)
+            IAccessTokenHelper accessTokenHelper,
+            IAccessTokenProvider accessTokenProvider)
         {
             _logger = logger;
             _userRepository = userRepository;
             _accessTokenHelper = accessTokenHelper;
+            _accessTokenProvider = accessTokenProvider;
+        }
+
+        [HttpGet]
+        public IActionResult GetUser()
+        {
+            var tokenPayload = _accessTokenProvider.GetTokenPayload();
+            _logger.Info("Get User endpoint...", new { tokenPayload });
+
+            if (tokenPayload != null)
+            {
+                var foundUser = _userRepository.GetUser(tokenPayload.UserId, null);
+
+                if (foundUser != null)
+                {
+                    _logger.Info("Get User endpoint successful!", new { foundUser });
+                    return Ok(foundUser);
+                }
+            }
+
+            return Unauthorized();
         }
 
         [HttpPost("login")]
@@ -43,13 +66,13 @@ namespace VacationManagerBackend.Controllers
 
                         var loginResult = new
                         {
-                            UserId = tokenPayload.UserId,
+                            tokenPayload.UserId,
                             DepartmendId = tokenPayload.DepartmentId,
-                            LastName = tokenPayload.LastName,
-                            FirstName = tokenPayload.FirstName,
-                            ExpirationDate = tokenPayload.ExpirationDate,
-                            IsManager = tokenPayload.IsManager,
-                            IsAdmin = tokenPayload.IsAdmin,
+                            tokenPayload.LastName,
+                            tokenPayload.FirstName,
+                            tokenPayload.ExpirationDate,
+                            tokenPayload.IsManager,
+                            tokenPayload.IsAdmin,
                             AccessToken = at
                         };
 

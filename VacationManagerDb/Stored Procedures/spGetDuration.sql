@@ -1,31 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[spGetDuration]
-	@userId int,
-	@startTime datetime2,
-	@endTime datetime2
+	@param1 int = 0,
+	@param2 int
 AS
-	DECLARE @vacationRequest TABLE(
-		[Id] INT NOT NULL PRIMARY KEY,
-		[StartTime] DATETIME2,
-		[EndTime] DATETIME2,
-		[Duration] INT
-	)
-
-	INSERT INTO @vacationRequest (
-		[Id]
-		,[StartTime]
-		,[EndTime]
-		,[Duration]
-	)
-	SELECT [Id]
-		,[StartTime]
-		,[EndTime]
-		,[Duration]
-	FROM [viVacationRequest]
-	WHERE [UserId] = @userId
-	AND [RequestState] != 2
-	AND [StartTime] >= @startTime
-	AND [EndTime] <= @endTime
-
-	
-
+	SELECT @param1, @param2
 RETURN 0

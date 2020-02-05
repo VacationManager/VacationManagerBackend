@@ -28,13 +28,17 @@ namespace VacationManagerBackend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpContextAccessor();
+
             services.Configure<DbConfig>(Configuration.GetSection("DbConfig"));
 
             services.AddSingleton<IDbHelper, DbHelper>();
             services.AddSingleton<IAccessTokenHelper, AccessTokenHelper>();
+            services.AddSingleton<IAccessTokenProvider, AccessTokenProvider>();
 
             services.AddSingleton<IUserRepository, UserRepository>();
             services.AddSingleton<IDepartmentRepository, DepartmentRepository>();
+            services.AddSingleton<IVacationRepository, VacationRepository>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
