@@ -10,5 +10,19 @@
         public string Password { get; set; }
         public bool IsManager { get; set; }
         public bool IsAdmin { get; set; }
+
+        public User Copy()
+        {
+            var cpy = (User)MemberwiseClone();
+            return cpy;
+        }
+
+        public User GetSecureUser()
+        {
+            var cpy = Copy();
+            cpy.Password = null;
+
+            return cpy;
+        }
     }
 }
