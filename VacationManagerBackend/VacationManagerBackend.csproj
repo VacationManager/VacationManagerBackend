@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <Folder Include="Interfaces\Repositories\" />
-    <Folder Include="Models\Config\" />
     <Folder Include="Repositories\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
