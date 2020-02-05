@@ -64,5 +64,7 @@
   <ItemGroup>
     <Build Include="Tables\User.sql" />
     <Build Include="Tables\Department.sql" />
+    <Build Include="Tables\VacationRequest.sql" />
+    <Build Include="Tables\Configuration.sql" />
   </ItemGroup>
 </Project>
