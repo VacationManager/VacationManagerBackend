@@ -27,6 +27,26 @@ namespace VacationManagerBackend.Controllers
             _accessTokenProvider = accessTokenProvider;
         }
 
+        [HttpGet]
+        public IActionResult GetUser()
+        {
+            var tokenPayload = _accessTokenProvider.GetTokenPayload();
+            _logger.Info("Get User endpoint...", new { tokenPayload });
+
+            if (tokenPayload != null)
+            {
+                var foundUser = _userRepository.GetUser(tokenPayload.UserId, null);
+
+                if (foundUser != null)
+                {
+                    _logger.Info("Get User endpoint successful!", new { foundUser });
+                    return Ok(foundUser);
+                }
+            }
+
+            return Unauthorized();
+        }
+
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginInputData loginInputData)
         {
