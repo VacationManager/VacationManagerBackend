@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using LoggerLibrary.Extension;
 using Microsoft.Extensions.Logging;
+using System.Data;
 using VacationManagerBackend.Interfaces.Helper;
 using VacationManagerBackend.Interfaces.Repositories;
 using VacationManagerBackend.Models;
@@ -37,6 +38,23 @@ namespace VacationManagerBackend.Repositories
                 _logger.Info("Get VacationRequest result", new { foundVacationReqest });
 
                 return foundVacationReqest;
+            }
+        }
+
+        public void CreateVacationRequest(VacationRequest vacationRequest)
+        {
+            const string cmd = "[spCreateVacationRequest]";
+            var param = new DynamicParameters(new
+            {
+                userId = vacationRequest.UserId,
+                startTime = vacationRequest.StartTime,
+                endTime = vacationRequest.EndTime,
+                annotation = vacationRequest.Annotation
+            });
+
+            using (var con = _dbHelper.GetConnection())
+            {
+                con.Execute(cmd, param, commandType: CommandType.StoredProcedure);
             }
         }
     }
