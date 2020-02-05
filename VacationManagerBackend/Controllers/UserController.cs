@@ -45,13 +45,13 @@ namespace VacationManagerBackend.Controllers
 
                         var loginResult = new
                         {
-                            UserId = tokenPayload.UserId,
+                            tokenPayload.UserId,
                             DepartmendId = tokenPayload.DepartmentId,
-                            LastName = tokenPayload.LastName,
-                            FirstName = tokenPayload.FirstName,
-                            ExpirationDate = tokenPayload.ExpirationDate,
-                            IsManager = tokenPayload.IsManager,
-                            IsAdmin = tokenPayload.IsAdmin,
+                            tokenPayload.LastName,
+                            tokenPayload.FirstName,
+                            tokenPayload.ExpirationDate,
+                            tokenPayload.IsManager,
+                            tokenPayload.IsAdmin,
                             AccessToken = at
                         };
 
