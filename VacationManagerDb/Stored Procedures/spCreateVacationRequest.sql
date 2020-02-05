@@ -20,7 +20,7 @@ AS
 		BEGIN
 			SET @duration = @duration + 0.5
 		END
-		SET @currentTime = DATEADD(HOUR, 0,5, @currentTime)
+		SET @currentTime = DATEADD(HOUR, 0.5, @currentTime)
 	END
 
 	INSERT INTO [VacationRequest] (
