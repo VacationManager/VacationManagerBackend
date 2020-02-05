@@ -9,6 +9,7 @@ using VacationManagerBackend.Models;
 
 namespace VacationManagerBackend.Controllers
 {
+    [Route("[controller]")]
     public class VacationController : Controller
     {
         private readonly IAccessTokenProvider _accessTokenProvider;
