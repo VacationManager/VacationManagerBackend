@@ -2,6 +2,7 @@
 
 namespace VacationManagerBackend.Models
 {
+    [Serializable]
     public class AccessTokenPayload
     {
         public int UserId { get; set; }

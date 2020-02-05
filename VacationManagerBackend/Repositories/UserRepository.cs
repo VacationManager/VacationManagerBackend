@@ -37,7 +37,7 @@ namespace VacationManagerBackend.Repositories
                 const string query = @" SELECT u.*
                                         FROM viUser AS u
                                         WHERE (@Id > 0 AND u.Id = @Id OR @Id IS NULL)
-                                        AND (@MailAddress IS NOT NULL AND u.MailAddress = @MailAddress OR @MailAddress OR @MailAddress";
+                                        AND (@MailAddress IS NOT NULL AND u.MailAddress = @MailAddress OR @MailAddress IS NULL)";
 
                 var foundUser = conn.QueryFirstOrDefault<User>(query, dParams);
 

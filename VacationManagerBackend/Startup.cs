@@ -30,6 +30,7 @@ namespace VacationManagerBackend
         {
             services.Configure<DbConfig>(Configuration.GetSection("DbConfig"));
 
+            services.AddSingleton<IDbHelper, DbHelper>();
             services.AddSingleton<IAccessTokenHelper, AccessTokenHelper>();
             services.AddSingleton<IUserRepository, UserRepository>();
 

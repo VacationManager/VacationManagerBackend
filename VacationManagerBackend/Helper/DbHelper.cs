@@ -17,7 +17,7 @@ namespace VacationManagerBackend.Helper
 
         public IDbConnection GetConnection()
         {
-            var con = new SqlConnection();
+            var con = new SqlConnection(_dbConfig.ConnectionString);
             con.Open();
 
             return con;

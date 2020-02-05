@@ -1,4 +1,5 @@
 ﻿using LoggerLibrary.Extension;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using VacationManagerBackend.Interfaces.Helper;
@@ -8,7 +9,7 @@ using VacationManagerBackend.Models;
 namespace VacationManagerBackend.Controllers
 {
     [Route("[controller]")]
-    public class UserController : Microsoft.AspNetCore.Mvc.Controller
+    public class UserController : Controller
     {
         ILogger _logger;
         IUserRepository _userRepository;
@@ -57,10 +58,10 @@ namespace VacationManagerBackend.Controllers
                         return Ok(loginResult);
                     }
 
-                    return Forbid();
+                    return Unauthorized();
                 }
 
-                return NotFound();
+                return Unauthorized();
             }
 
             return BadRequest();
