@@ -48,6 +48,7 @@ namespace VacationManagerBackend
                 app.UseHsts();
             }
 
+            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
             app.UseRequestLogging();
             app.UseUnhandledExceptionLogging();
             app.UseHttpsRedirection();
