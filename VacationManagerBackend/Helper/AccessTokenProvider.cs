@@ -5,7 +5,7 @@ using VacationManagerBackend.Models;
 
 namespace VacationManagerBackend.Helper
 {
-    public class AccessTokenProvider
+    public class AccessTokenProvider : IAccessTokenProvider
     {
         IHttpContextAccessor _httpContextAccessor;
         IAccessTokenHelper _accessTokenHelper;
