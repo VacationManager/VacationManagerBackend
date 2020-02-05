@@ -29,10 +29,10 @@ namespace VacationManagerBackend.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetUserVacationResult()
+        public IActionResult GetUserVacationRequests()
         {
             var tokenPayload = _accessTokenProvider.GetTokenPayload();
-            _logger.Info("Get UserVacationResult endpoint...", new { tokenPayload });
+            _logger.Info("Get UserVacationRequests endpoint...", new { tokenPayload });
 
             if (tokenPayload != null)
             {
@@ -40,7 +40,7 @@ namespace VacationManagerBackend.Controllers
 
                 if (foundVacationRequests != null && foundVacationRequests.Count > 0)
                 {
-                    _logger.Info("Get UserVacationResult endpoint successful!", new { foundVacationRequests.Count });
+                    _logger.Info("Get UserVacationRequests endpoint successful!", new { foundVacationRequests.Count });
                     return Ok(foundVacationRequests);
                 }
 
