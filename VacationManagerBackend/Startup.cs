@@ -34,6 +34,7 @@ namespace VacationManagerBackend
             services.AddSingleton<IDbHelper, DbHelper>();
             services.AddSingleton<IAccessTokenHelper, AccessTokenHelper>();
             services.AddSingleton<IAccessTokenProvider, AccessTokenProvider>();
+            services.AddSingleton<IVacationRepository, VacationRepository>();
             services.AddSingleton<IUserRepository, UserRepository>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
