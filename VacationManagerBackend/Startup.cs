@@ -35,6 +35,7 @@ namespace VacationManagerBackend
 
             services.AddSingleton<IUserRepository, UserRepository>();
             services.AddSingleton<IDepartmentRepository, DepartmentRepository>();
+            services.AddSingleton<IVacationRepository, VacationRepository>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
