@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using VacationManagerBackend.Interfaces.Helper;
 using VacationManagerBackend.Interfaces.Repositories;
 using VacationManagerBackend.Models;
+using VacationManagerBackend.Models.Input;
 
 namespace VacationManagerBackend.Controllers
 {
