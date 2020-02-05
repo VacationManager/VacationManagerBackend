@@ -1,5 +1,4 @@
 ﻿using LoggerLibrary.Extension;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using VacationManagerBackend.Interfaces.Helper;
@@ -14,15 +13,18 @@ namespace VacationManagerBackend.Controllers
         ILogger _logger;
         IUserRepository _userRepository;
         IAccessTokenHelper _accessTokenHelper;
+        IAccessTokenProvider _accessTokenProvider;
 
         public UserController(
             ILogger<UserController> logger,
             IUserRepository userRepository,
-            IAccessTokenHelper accessTokenHelper)
+            IAccessTokenHelper accessTokenHelper,
+            IAccessTokenProvider accessTokenProvider)
         {
             _logger = logger;
             _userRepository = userRepository;
             _accessTokenHelper = accessTokenHelper;
+            _accessTokenProvider = accessTokenProvider;
         }
 
         [HttpPost("login")]
