@@ -66,5 +66,13 @@
     <Build Include="Tables\Department.sql" />
     <Build Include="Tables\VacationRequest.sql" />
     <Build Include="Tables\Configuration.sql" />
+    <Build Include="Tables\BusinessDay.sql" />
+    <Build Include="Views\viBusinessDay.sql" />
+    <Build Include="Views\viUser.sql" />
+    <Build Include="Views\viVacationRequest.sql" />
+    <Build Include="Views\viDepartment.sql" />
+    <Build Include="Views\viConfiguration.sql" />
+    <Build Include="Stored Procedures\spCreateVacationRequest.sql" />
+    <Build Include="Stored Procedures\spGetDuration.sql" />
   </ItemGroup>
 </Project>
