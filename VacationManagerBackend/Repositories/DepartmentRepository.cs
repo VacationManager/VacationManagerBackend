@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -10,11 +11,16 @@ namespace VacationManagerBackend.Repositories
 {
     public class DepartmentRepository : IDepartmentRepository
     {
+        private readonly ILogger _logger;
         private readonly IDbHelper _dbHelper;
         private readonly IUserRepository _userRepository;
 
-        public DepartmentRepository(IDbHelper dbHelper, IUserRepository userRepository)
+        public DepartmentRepository(
+            ILogger<DepartmentRepository> logger,
+            IDbHelper dbHelper,
+            IUserRepository userRepository)
         {
+            _logger = logger;
             _dbHelper = dbHelper;
             _userRepository = userRepository;
         }
@@ -31,7 +37,7 @@ namespace VacationManagerBackend.Repositories
                 foreach (var department in departments)
                 {
                     // TODO: set users
-                    department.Users = null;
+                    department.Users = _userRepository.GetDepartmentUser(department.Id);
                 }
 
                 return departments;

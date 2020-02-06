@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using VacationManagerBackend.Models;
 
 namespace VacationManagerBackend.Interfaces.Repositories
@@ -7,5 +8,6 @@ namespace VacationManagerBackend.Interfaces.Repositories
     {
         VacationRequest GetVacationRequest(int id);
         Task CreateVacationRequest(VacationRequest vacationRequest);
+        List<VacationRequest> GetUserVacationRequests(int userId);
     }
 }

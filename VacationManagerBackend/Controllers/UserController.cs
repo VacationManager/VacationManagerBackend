@@ -11,10 +11,10 @@ namespace VacationManagerBackend.Controllers
     [Route("[controller]")]
     public class UserController : Controller
     {
-        ILogger _logger;
-        IUserRepository _userRepository;
-        IAccessTokenHelper _accessTokenHelper;
-        IAccessTokenProvider _accessTokenProvider;
+        private readonly ILogger _logger;
+        private readonly IUserRepository _userRepository;
+        private readonly IAccessTokenHelper _accessTokenHelper;
+        private readonly IAccessTokenProvider _accessTokenProvider;
 
         public UserController(
             ILogger<UserController> logger,
