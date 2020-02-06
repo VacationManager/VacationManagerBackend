@@ -48,6 +48,37 @@ namespace VacationManagerBackend.Repositories
             }
         }
 
+        public List<VacationSlot> GetConfirmedVacationSlotsFromUser(int userId)
+        {
+            _logger.Info("Get confirmed VacationSlots from User...", new { userId });
+
+            using (var conn = _dbHelper.GetConnection())
+            {
+                var dParams = new DynamicParameters();
+                dParams.Add("@UserId", userId);
+
+                const string query = @" SELECT	vs.[Date],
+		                                        vs.[DayTimeType] AS IsAfternoon,
+		                                        vs.[VacationRequestId]
+                                        FROM viVacationSlot AS vs
+                                        INNER JOIN viVacationRequest AS vr
+                                        ON vr.Id = vs.VacationRequestId
+                                        INNER JOIN viUser AS u
+                                        ON u.Id = vr.UserId
+                                        WHERE u.Id = @UserId
+                                        AND vr.RequestState = 1 -- Is request confirmed?";
+
+                var confirmedSlots = conn.Query<VacationSlot>(query, dParams).AsList();
+
+                _logger.Info("Get confirmed VacationSlots from User...", new
+                {
+                    Amount = confirmedSlots != null ? confirmedSlots.Count : 0
+                });
+
+                return confirmedSlots;
+            }
+        }
+
         public List<VacationRequest> GetUserVacationRequests(int userId)
         {
             _logger.Info("Get UserVacationRequest...", new { userId });
