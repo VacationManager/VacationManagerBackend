@@ -77,6 +77,30 @@ namespace VacationManagerBackend.Controllers
             return BadRequest();
         }
 
+        [HttpPatch]
+        public IActionResult UpdateUser([FromBody] InputUser user)
+        {
+            _logger.Info("Update User...", new { user });
+
+            if (user != null)
+            {
+                var tokenPayload = _accessTokenProvider.GetTokenPayload();
+
+                if (tokenPayload != null)
+                {
+                    user.Id = tokenPayload.UserId;
+                    _userRepository.SetUser(user);
+
+                    _logger.Info("User successfully updated!", new { user, tokenPayload });
+                    return NoContent();
+                }
+
+                return Unauthorized();
+            }
+
+            return BadRequest();
+        }
+
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginInputData loginInputData)
         {

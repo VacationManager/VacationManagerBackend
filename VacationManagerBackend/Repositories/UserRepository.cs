@@ -84,6 +84,15 @@ namespace VacationManagerBackend.Repositories
         public int CreateUser(InputUser user)
         {
             _logger.Info("Create User...", new { user });
+            user.Id = null;
+            int userId = SetUser(user);
+            _logger.Info("User successfully created!", new { userId });
+            return userId;
+        }
+
+        public int SetUser(InputUser user)
+        {
+            _logger.Info("Set User...", new { user });
 
             using (var conn = _dbHelper.GetConnection())
             {
@@ -102,7 +111,7 @@ namespace VacationManagerBackend.Repositories
                 conn.Execute("spSetUser", dParams, commandType: CommandType.StoredProcedure);
                 int userId = dParams.Get<int>("@NewId");
 
-                _logger.Info("User successfully created!", new { userId });
+                _logger.Info("User successfully set!", new { userId });
 
                 return userId;
             }
