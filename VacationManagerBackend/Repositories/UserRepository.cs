@@ -2,9 +2,11 @@
 using LoggerLibrary.Extension;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.Data;
 using VacationManagerBackend.Interfaces.Helper;
 using VacationManagerBackend.Interfaces.Repositories;
 using VacationManagerBackend.Models;
+using VacationManagerBackend.Models.Input;
 
 namespace VacationManagerBackend.Repositories
 {
@@ -76,6 +78,33 @@ namespace VacationManagerBackend.Repositories
                 });
 
                 return foundUsers;
+            }
+        }
+
+        public int CreateUser(InputUser user)
+        {
+            _logger.Info("Create User...", new { user });
+
+            using (var conn = _dbHelper.GetConnection())
+            {
+                var dParams = new DynamicParameters();
+                dParams.Add("@Id", user.Id);
+                dParams.Add("@DepartmentId", user.DepartmentId);
+                dParams.Add("@FirstName", user.FirstName);
+                dParams.Add("@LastName", user.LastName);
+                dParams.Add("@MailAddress", user.MailAddress);
+                dParams.Add("@Password", user.Password);
+                dParams.Add("@IsManager", user.IsManager);
+                dParams.Add("@IsAdmin", user.IsAdmin);
+                dParams.Add("@VacationDayCount", user.VacationDayCount);
+                dParams.Add("@NewId", 0, direction: ParameterDirection.ReturnValue);
+
+                conn.Execute("spSetUser", dParams, commandType: CommandType.StoredProcedure);
+                int userId = dParams.Get<int>("@NewId");
+
+                _logger.Info("User successfully created!", new { userId });
+
+                return userId;
             }
         }
     }
