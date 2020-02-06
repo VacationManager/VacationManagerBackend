@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using LoggerLibrary.Extension;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using VacationManagerBackend.Interfaces.Helper;
 using VacationManagerBackend.Interfaces.Repositories;
 using VacationManagerBackend.Models;
@@ -44,6 +45,30 @@ namespace VacationManagerBackend.Repositories
                 _logger.Info("Get User result", new { foundUser });
 
                 return foundUser;
+            }
+        }
+
+        public List<User> GetDepartmentUser(int departmentId)
+        {
+            _logger.Info("Get DepartmentUser...", new { departmentId });
+
+            using (var conn = _dbHelper.GetConnection())
+            {
+                var dParams = new DynamicParameters();
+                dParams.Add("@DepartmentId", departmentId);
+
+                const string query = @" SELECT u.*
+                                        FROM viUser AS u
+                                        WHERE u.DepartmentId = @DepartmentId";
+
+                var foundUsers = conn.Query<User>(query, dParams).AsList();
+
+                _logger.Info("Get DepartmentUser result", new
+                {
+                    Amount = foundUsers != null ? foundUsers.Count : 0
+                });
+
+                return foundUsers;
             }
         }
     }

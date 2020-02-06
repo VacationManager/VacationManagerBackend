@@ -1,5 +1,4 @@
 ﻿using Dapper;
-using LoggerLibrary.Extension;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Data;
@@ -38,7 +37,7 @@ namespace VacationManagerBackend.Repositories
                 foreach (var department in departments)
                 {
                     // TODO: set users
-                    department.Users = GetDepartmentUser(department.Id);
+                    department.Users = _userRepository.GetDepartmentUser(department.Id);
                 }
 
                 return departments;
@@ -54,30 +53,6 @@ namespace VacationManagerBackend.Repositories
             using (var con = _dbHelper.GetConnection())
             {
                 return con.QueryFirstOrDefault<int>(cmd, param, commandType: CommandType.StoredProcedure);
-            }
-        }
-
-        public List<User> GetDepartmentUser(int departmentId)
-        {
-            _logger.Info("Get DepartmentUser...", new { departmentId });
-
-            using (var conn = _dbHelper.GetConnection())
-            {
-                var dParams = new DynamicParameters();
-                dParams.Add("@DepartmentId", departmentId);
-
-                const string query = @" SELECT u.*
-                                        FROM viUser AS u
-                                        WHERE u.DepartmentId = @DepartmentId";
-
-                var foundUsers = conn.Query<User>(query, dParams).ToList();
-
-                _logger.Info("Get DepartmentUser result", new
-                {
-                    Amount = foundUsers != null ? foundUsers.Count : 0
-                });
-
-                return foundUsers;
             }
         }
     }
