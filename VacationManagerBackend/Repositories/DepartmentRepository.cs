@@ -14,15 +14,18 @@ namespace VacationManagerBackend.Repositories
         private readonly ILogger _logger;
         private readonly IDbHelper _dbHelper;
         private readonly IUserRepository _userRepository;
+        private readonly IVacationRepository _vacationRepository;
 
         public DepartmentRepository(
             ILogger<DepartmentRepository> logger,
             IDbHelper dbHelper,
-            IUserRepository userRepository)
+            IUserRepository userRepository,
+            IVacationRepository vacationRepository)
         {
             _logger = logger;
             _dbHelper = dbHelper;
             _userRepository = userRepository;
+            _vacationRepository = vacationRepository;
         }
 
         public List<Department> GetDepartments()
@@ -38,6 +41,11 @@ namespace VacationManagerBackend.Repositories
                 {
                     // TODO: set users
                     department.Users = _userRepository.GetDepartmentUser(department.Id);
+
+                    foreach (var user in department.Users)
+                    {
+                        user.ConfirmedVacationSlots = _vacationRepository.GetConfirmedVacationSlotsFromUser(user.Id);
+                    }
                 }
 
                 return departments;

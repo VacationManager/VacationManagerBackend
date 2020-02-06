@@ -1,4 +1,6 @@
-﻿namespace VacationManagerBackend.Models
+﻿using System.Collections.Generic;
+
+namespace VacationManagerBackend.Models
 {
     public class User
     {
@@ -11,6 +13,7 @@
         public bool IsManager { get; set; }
         public bool IsAdmin { get; set; }
         public int VacationDayCount { get; set; }
+        public List<VacationSlot> ConfirmedVacationSlots { get; set; }
 
         public User Copy()
         {
