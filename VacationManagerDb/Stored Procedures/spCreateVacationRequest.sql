@@ -1,5 +1,5 @@
-﻿CREATE TYPE [HolidayList] AS TABLE(
-	[Day] DATE
+﻿CREATE TYPE [HolidayList] AS TABLE (
+	[Day] DATETIME2
 )
 GO
 CREATE PROCEDURE [dbo].[spCreateVacationRequest]
@@ -13,7 +13,7 @@ AS
 	BEGIN
 		RAISERROR(N'StartTime must be smaller than EndTime', 10, 1)
 	END
-	IF (EXISTS(SELECT TOP 1 1 FROM [viVacationRequest] WHERE [UserId] = @userId AND [StartTime] >= @startTime AND [EndTime] < @endTime AND [RequestState] != 2))
+	IF (EXISTS(SELECT TOP 1 1 FROM [viVacationRequest] WHERE [UserId] = @userId AND [StartTime] >= @startTime AND [EndTime] < @endTime))
 	BEGIN
 		RETURN -1
 	END
@@ -26,7 +26,7 @@ AS
 	DECLARE @currentTime datetime2 = @startTime
 	WHILE (@currentTime <= @endTime)
 	BEGIN
-		IF (EXISTS(SELECT TOP 1 1 FROM [viBusinessDay] WHERE [Weekday] = DATEPART(DW, @currentTime) - 1 AND [IsInUse] = 1) AND NOT EXISTS(SELECT TOP 1 1 FROM @holidays WHERE [Day] = CAST(@currentTime AS date)))
+		IF (EXISTS(SELECT TOP 1 1 FROM [viBusinessDay] WHERE [Weekday] = DATEPART(DW, @currentTime) - 1 AND [IsInUse] = 1) AND NOT EXISTS(SELECT TOP 1 1 FROM @holidays WHERE [Day] = CAST(@currentTime AS DATE)))
 		BEGIN
 			INSERT INTO @vacationSlot (
 				[Date]
@@ -36,7 +36,7 @@ AS
 				,CASE WHEN CAST(@currentTime AS TIME) < '12:00' THEN 0 ELSE 1 END
 			)
 		END
-		SET @currentTime = DATEADD(DAY, 0.5, @currentTime)
+		SET @currentTime = DATEADD(HOUR, 12, @currentTime)
 	END
 
 	DECLARE @startYearSlotCount int =  (SELECT DISTINCT COUNT([S].[Id])
@@ -46,7 +46,7 @@ AS
 															WHERE [UserId] = @userId
 															AND [RequestState] != 2
 															GROUP BY [Date]
-															HAVING YEAR([Date]) = YEAR(@startTime)) + (SELECT COUNT(1) FROM @vacationSlot GROUP BY [Date] HAVING YEAR([Date]) = YEAR(@startTime))
+															HAVING YEAR([Date]) = YEAR(@startTime)) + (SELECT COUNT(1) FROM @vacationSlot WHERE YEAR([Date]) = YEAR(@startTime))
 
 	DECLARE @endYearSlotCount int =  (SELECT DISTINCT COUNT([S].[Id])
 													FROM [viVacationSlot] [S]
@@ -55,7 +55,7 @@ AS
 													WHERE [UserId] = @userId
 													AND [RequestState] != 2
 													GROUP BY [Date]
-													HAVING YEAR([Date]) = YEAR(@endTime)) + (SELECT COUNT(1) FROM @vacationSlot GROUP BY [Date] HAVING YEAR([Date]) = YEAR(@endTime))
+													HAVING YEAR([Date]) = YEAR(@endTime)) + (SELECT COUNT(1) FROM @vacationSlot WHERE YEAR([Date]) = YEAR(@endTime))
 
 	DECLARE @slotsPerYear int = (SELECT [VacationDayCount] FROM [viUser] WHERE [Id] = @userId) * 2
 
