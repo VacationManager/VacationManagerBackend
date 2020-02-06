@@ -1,8 +1,11 @@
 ﻿using LoggerLibrary.Extension;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using VacationManagerBackend.Interfaces.Helper;
 using VacationManagerBackend.Interfaces.Repositories;
+using VacationManagerBackend.Models;
+using VacationManagerBackend.Models.Input;
 
 namespace VacationManagerBackend.Controllers
 {
@@ -44,6 +47,28 @@ namespace VacationManagerBackend.Controllers
                 }
 
                 return NoContent();
+            }
+
+            return Unauthorized();
+        }
+
+        [HttpPost]
+        public IActionResult CreateDepartment([FromBody] InputDepartment department)
+        {
+            _logger.Info("Create Department endpoint...", new { department });
+            var tokenPayload = _accessTokenProvider.GetTokenPayload();
+
+            if (tokenPayload != null)
+            {
+                int createdDepartmentId = _departmentRepository.CreateDepartment(department.DepartmentName);
+
+                if (createdDepartmentId > 0)
+                {
+                    _logger.Info("Create Department endpoint successful!", new { createdDepartmentId });
+                    return Ok(new { createdDepartmentId });
+                }
+
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
             return Unauthorized();
