@@ -76,5 +76,6 @@
     <Build Include="Tables\VacationSlot.sql" />
     <Build Include="Views\viVacationSlot.sql" />
     <Build Include="Stored Procedures\spCreateDepartment.sql" />
+    <Build Include="Stored Procedures\spUpdateVacationRequest.sql" />
   </ItemGroup>
 </Project>

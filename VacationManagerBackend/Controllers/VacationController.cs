@@ -5,9 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using VacationManagerBackend.Enums;
 using VacationManagerBackend.Interfaces.Helper;
 using VacationManagerBackend.Interfaces.Repositories;
 using VacationManagerBackend.Models;
+using VacationManagerBackend.Models.Dto;
 
 namespace VacationManagerBackend.Controllers
 {
@@ -66,6 +68,29 @@ namespace VacationManagerBackend.Controllers
 
             request.UserId = user.UserId;
             _vacationRepository.CreateVacationRequest(request);
+            return Ok();
+        }
+
+        [HttpPatch]
+        public IActionResult Patch([FromBody] VacationRequestDto request)
+        {
+            var user = _accessTokenProvider.GetTokenPayload();
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+            if (!user.IsManager)
+            {
+                return StatusCode(403);
+            }
+            if (request?.NewState == null || !Enum.IsDefined(typeof(VacationRequestState), request.NewState))
+            {
+                return BadRequest();
+            }
+            if (!_vacationRepository.UpdateVacationRequest(request, user.UserId))
+            {
+                return StatusCode(403);
+            }
             return Ok();
         }
     }
