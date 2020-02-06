@@ -48,7 +48,31 @@ namespace VacationManagerBackend.Repositories
             }
         }
 
-        public async Task CreateVacationRequest(VacationRequest vacationRequest)
+        public List<VacationRequest> GetUserVacationRequests(int userId)
+        {
+            _logger.Info("Get UserVacationRequest...", new { userId });
+
+            using (var conn = _dbHelper.GetConnection())
+            {
+                var dParams = new DynamicParameters();
+                dParams.Add("@UserId", userId);
+
+                const string query = @" SELECT vr.*
+                                        FROM viVacationRequest AS vr
+                                        WHERE vr.UserId = @UserId";
+
+                var foundRequests = conn.Query<VacationRequest>(query, dParams).AsList();
+
+                _logger.Info("Get UserVacationRequest result", new
+                {
+                    Amount = foundRequests != null ? foundRequests.Count : 0
+                });
+
+                return foundRequests;
+            }
+        }
+
+        public void CreateVacationRequest(VacationRequest vacationRequest)
         {
             var holidayDates = new List<DateTime>();
             for (int year = vacationRequest.StartTime.Year; year <= vacationRequest.EndTime.Year; year++)
