@@ -72,7 +72,7 @@ namespace VacationManagerBackend.Repositories
             }
         }
 
-        public void CreateVacationRequest(VacationRequest vacationRequest)
+        public async Task CreateVacationRequest(VacationRequest vacationRequest)
         {
             var holidayDates = new List<DateTime>();
             for (int year = vacationRequest.StartTime.Year; year <= vacationRequest.EndTime.Year; year++)
