@@ -2,9 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using VacationManagerBackend.Enums;
 using VacationManagerBackend.Interfaces.Helper;
 using VacationManagerBackend.Interfaces.Repositories;
@@ -55,15 +52,15 @@ namespace VacationManagerBackend.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] VacationRequest request)
         {
-            if (request == null)
-            {
-                // TODO: log error
-                return BadRequest();
-            }
             var user = _accessTokenProvider.GetTokenPayload();
             if (user == null)
             {
                 return Unauthorized();
+            }
+            if (request == null)
+            {
+                _logger.Warning("Missing vacation request body", new { user });
+                return BadRequest();
             }
 
             request.UserId = user.UserId;
@@ -85,6 +82,7 @@ namespace VacationManagerBackend.Controllers
             }
             if (request?.NewState == null || !Enum.IsDefined(typeof(VacationRequestState), request.NewState))
             {
+                _logger.Warning("Invalid request update", new { user, request });
                 return BadRequest();
             }
             if (!_vacationRepository.UpdateVacationRequest(request, user.UserId))
