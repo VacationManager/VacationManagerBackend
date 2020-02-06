@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using VacationManagerBackend.Models.Holidays;
 
 namespace VacationManagerBackend.Interfaces.Helper
 {
     public interface IHolidayHelper
     {
+        Task<HolidayResult> GetHolidays(int year);
     }
 }
