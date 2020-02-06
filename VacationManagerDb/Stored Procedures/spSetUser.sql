@@ -35,4 +35,20 @@ AS
 
 		RETURN @@IDENTITY
 	END
+
+	ELSE
+	BEGIN
+		IF (@Delete = 0)
+		BEGIN
+			UPDATE [User]
+			SET	DepartmentId = ISNULL(@DepartmentId, DepartmentId),
+				FirstName = ISNULL(@FirstName, FirstName),
+				LastName = ISNULL(@LastName, LastName),
+				MailAddress = ISNULL(@MailAddress, MailAddress),
+				[Password] = ISNULL(@Password, [Password]),
+				IsManager = ISNULL(@IsManager, IsManager),
+				VacationDayCount = ISNULL(@VacationDayCount, VacationDayCount)
+			WHERE Id = @Id
+		END
+	END
 RETURN 0
