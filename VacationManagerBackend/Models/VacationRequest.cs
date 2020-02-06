@@ -10,7 +10,7 @@ namespace VacationManagerBackend.Models
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public float Duration { get; set; }
-        public VacationRequestState State { get; set; }
+        public VacationRequestState RequestState { get; set; }
         public string Annotation { get; set; }
     }
 }
