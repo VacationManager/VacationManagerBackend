@@ -141,7 +141,7 @@ namespace VacationManagerBackend.Repositories
             param.Add("@isAllowed", direction: ParameterDirection.ReturnValue);
             using (var con = _dbHelper.GetConnection())
             {
-                con.Execute(cmd, param);
+                con.Execute(cmd, param, commandType: CommandType.StoredProcedure);
                 return param.Get<int>("@isAllowed") == 1;
             }
         }

@@ -34,6 +34,7 @@ namespace VacationManagerBackend
             services.Configure<DbConfig>(Configuration.GetSection("DbConfig"));
 
             services.AddSingleton<IDbHelper, DbHelper>();
+            services.AddSingleton<IMailHelper, MailHelper>();
             services.AddSingleton<IAccessTokenHelper, AccessTokenHelper>();
             services.AddSingleton<IAccessTokenProvider, AccessTokenProvider>();
             services.AddSingleton<IHolidayHelper, HolidayHelper>();
