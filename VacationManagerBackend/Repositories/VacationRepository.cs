@@ -132,7 +132,7 @@ namespace VacationManagerBackend.Repositories
 
         public List<UserRequest> GetPendingRequests(int managerId)
         {
-            const string query = @"SELECT [Id]
+            const string query = @"SELECT r.[Id]
                                         ,[StartTime]
                                         ,[EndTime]
                                         ,[RequestState]
@@ -141,7 +141,8 @@ namespace VacationManagerBackend.Repositories
                                     FROM [viVacationRequest] r
                                     LEFT JOIN [viUser] u
                                     ON u.[Id] = r.[UserId]
-                                    WHERE [DepartmentId] = (SELECT [DepartmentId]
+                                    WHERE [RequestState] = 0
+                                    AND [DepartmentId] = (SELECT [DepartmentId]
                                                             FROM [viUser]
                                                             WHERE [Id] = @managerId
                                                             AND [IsManager] = 1)";
