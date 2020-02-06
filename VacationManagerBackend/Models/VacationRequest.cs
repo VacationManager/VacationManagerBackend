@@ -1,5 +1,5 @@
 ﻿using System;
-using VacationManagerBackend.Enum;
+using VacationManagerBackend.Enums;
 
 namespace VacationManagerBackend.Models
 {

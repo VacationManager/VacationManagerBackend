@@ -9,6 +9,7 @@ using VacationManagerBackend.Extension;
 using VacationManagerBackend.Interfaces.Helper;
 using VacationManagerBackend.Interfaces.Repositories;
 using VacationManagerBackend.Models;
+using VacationManagerBackend.Models.Dto;
 
 namespace VacationManagerBackend.Repositories
 {
@@ -125,6 +126,23 @@ namespace VacationManagerBackend.Repositories
             {
                 con.Execute(cmd, param, commandType: CommandType.StoredProcedure);
                 var result = param.Get<int>("result");
+            }
+        }
+
+        public bool UpdateVacationRequest(VacationRequestDto request, int userId)
+        {
+            const string cmd = "[spUpdateVacationRequest]";
+            var param = new DynamicParameters(new
+            {
+                requestId = request.RequestId,
+                newState = request.NewState,
+                userId
+            });
+            param.Add("@isAllowed", direction: ParameterDirection.ReturnValue);
+            using (var con = _dbHelper.GetConnection())
+            {
+                con.Execute(cmd, param);
+                return param.Get<int>("@isAllowed") == 1;
             }
         }
     }
