@@ -7,4 +7,7 @@ AS
 		@name
 	)
 
-	SELECT SCOPE_IDENTITY()
+	DECLARE @depId INT = SCOPE_IDENTITY()
+	SELECT @depId
+
+	RETURN @depId

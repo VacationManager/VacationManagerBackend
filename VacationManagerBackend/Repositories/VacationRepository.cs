@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Threading.Tasks;
 using VacationManagerBackend.Extension;
 using VacationManagerBackend.Interfaces.Helper;
@@ -126,6 +127,29 @@ namespace VacationManagerBackend.Repositories
             {
                 con.Execute(cmd, param, commandType: CommandType.StoredProcedure);
                 var result = param.Get<int>("result");
+            }
+        }
+
+        public List<UserRequest> GetPendingRequests(int managerId)
+        {
+            const string query = @"SELECT [Id]
+                                        ,[StartTime]
+                                        ,[EndTime]
+                                        ,[RequestState]
+                                        ,[Annotation]
+                                        ,[UserId]
+                                    FROM [viVacationRequest] r
+                                    LEFT JOIN [viUser] u
+                                    ON u.[Id] = r.[UserId]
+                                    WHERE [DepartmentId] = (SELECT [DepartmentId]
+                                                            FROM [viUser]
+                                                            WHERE [Id] = @managerId
+                                                            AND [IsManager] = 1)";
+            var param = new DynamicParameters(new { managerId });
+
+            using (var con = _dbHelper.GetConnection())
+            {
+                return con.Query<UserRequest>(query, param).ToList();
             }
         }
 

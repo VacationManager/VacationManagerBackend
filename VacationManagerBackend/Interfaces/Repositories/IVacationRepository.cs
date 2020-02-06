@@ -10,6 +10,7 @@ namespace VacationManagerBackend.Interfaces.Repositories
         VacationRequest GetVacationRequest(int id);
         Task CreateVacationRequest(VacationRequest vacationRequest);
         List<VacationRequest> GetUserVacationRequests(int userId);
+        List<UserRequest> GetPendingRequests(int managerId);
         bool UpdateVacationRequest(VacationRequestDto request, int userId);
         List<VacationSlot> GetConfirmedVacationSlotsFromUser(int userId);
     }

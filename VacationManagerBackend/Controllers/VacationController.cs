@@ -49,6 +49,23 @@ namespace VacationManagerBackend.Controllers
             return Unauthorized();
         }
 
+        [HttpGet("pending")]
+        public IActionResult GetPendingRequests()
+        {
+            var user = _accessTokenProvider.GetTokenPayload();
+            if (user == null) return Unauthorized();
+            if (!user.IsAdmin && !user.IsManager)
+            {
+                _logger.Warning("User not allowed to get pending requests", new { user });
+                return StatusCode(403);
+            }
+            var requests = _vacationRepository.GetPendingRequests(user.UserId);
+            if (requests?.Count > 0)
+                return Ok(requests);
+
+            return NoContent();
+        }
+
         [HttpPost]
         public IActionResult Post([FromBody] VacationRequest request)
         {
