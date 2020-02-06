@@ -32,5 +32,7 @@ AS
 			@IsAdmin,
 			@VacationDayCount
 		);
+
+		RETURN @@IDENTITY
 	END
 RETURN 0

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using VacationManagerBackend.Models;
+using VacationManagerBackend.Models.Input;
 
 namespace VacationManagerBackend.Interfaces.Repositories
 {
@@ -7,5 +8,6 @@ namespace VacationManagerBackend.Interfaces.Repositories
     {
         User GetUser(int? userId, string mailAddress);
         List<User> GetDepartmentUser(int departmentId);
+        int CreateUser(InputUser user);
     }
 }

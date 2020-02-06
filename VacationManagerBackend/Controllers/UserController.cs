@@ -1,4 +1,5 @@
 ﻿using LoggerLibrary.Extension;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using VacationManagerBackend.Interfaces.Helper;
@@ -46,6 +47,34 @@ namespace VacationManagerBackend.Controllers
             }
 
             return Unauthorized();
+        }
+
+        [HttpPost]
+        public IActionResult CreateUser([FromBody] InputUser user)
+        {
+            _logger.Info("Create User endpoint...", new { user });
+
+            if (user != null)
+            {
+                var tokenPayload = _accessTokenProvider.GetTokenPayload();
+
+                if (tokenPayload != null)
+                {
+                    int createdUserId = _userRepository.CreateUser(user);
+                    
+                    if (createdUserId > 0)
+                    {
+                        _logger.Info("Create User endpoint successful!", new { createdUserId });
+                        return Ok(new { createdUserId });
+                    }
+
+                    return StatusCode(StatusCodes.Status500InternalServerError);
+                }
+
+                return Unauthorized();
+            }
+
+            return BadRequest();
         }
 
         [HttpPost("login")]
