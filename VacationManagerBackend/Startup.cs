@@ -39,6 +39,7 @@ namespace VacationManagerBackend
             services.AddSingleton<IAccessTokenProvider, AccessTokenProvider>();
             services.AddSingleton<IHolidayHelper, HolidayHelper>();
 
+            services.AddSingleton<IConfigurationRepository, ConfigurationRepository>();
             services.AddSingleton<IUserRepository, UserRepository>();
             services.AddSingleton<IDepartmentRepository, DepartmentRepository>();
             services.AddSingleton<IVacationRepository, VacationRepository>();

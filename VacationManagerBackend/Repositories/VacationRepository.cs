@@ -138,6 +138,9 @@ namespace VacationManagerBackend.Repositories
                                         ,[RequestState]
                                         ,[Annotation]
                                         ,[UserId]
+                                        ,[FirstName]
+                                        ,[LastName]
+                                        ,[MailAddress]
                                     FROM [viVacationRequest] r
                                     LEFT JOIN [viUser] u
                                     ON u.[Id] = r.[UserId]
