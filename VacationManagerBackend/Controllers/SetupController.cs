@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using LoggerLibrary.Extension;
+﻿using LoggerLibrary.Extension;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using VacationManagerBackend.Interfaces.Repositories;
@@ -10,6 +6,7 @@ using VacationManagerBackend.Models;
 
 namespace VacationManagerBackend.Controllers
 {
+    [Route("[controller]")]
     public class SetupController : Controller
     {
         private readonly ILogger _logger;
