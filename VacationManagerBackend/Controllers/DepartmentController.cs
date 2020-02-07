@@ -59,15 +59,20 @@ namespace VacationManagerBackend.Controllers
 
             if (tokenPayload != null)
             {
-                int createdDepartmentId = _departmentRepository.CreateDepartment(department.DepartmentName);
-
-                if (createdDepartmentId > 0)
+                if (tokenPayload.IsAdmin)
                 {
-                    _logger.Info("Create Department endpoint successful!", new { createdDepartmentId });
-                    return Ok(new { createdDepartmentId });
+                    int createdDepartmentId = _departmentRepository.CreateDepartment(department.DepartmentName);
+
+                    if (createdDepartmentId > 0)
+                    {
+                        _logger.Info("Create Department endpoint successful!", new { createdDepartmentId });
+                        return Ok(new { createdDepartmentId });
+                    }
+
+                    return StatusCode(StatusCodes.Status500InternalServerError);
                 }
 
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                return StatusCode(StatusCodes.Status403Forbidden);
             }
 
             return Unauthorized();

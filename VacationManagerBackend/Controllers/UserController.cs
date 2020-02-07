@@ -63,15 +63,20 @@ namespace VacationManagerBackend.Controllers
 
                 if (tokenPayload != null)
                 {
-                    int createdUserId = _userRepository.CreateUser(user);
-                    
-                    if (createdUserId > 0)
+                    if (tokenPayload.IsAdmin)
                     {
-                        _logger.Info("Create User endpoint successful!", new { createdUserId });
-                        return Ok(new { createdUserId });
+                        int createdUserId = _userRepository.CreateUser(user);
+
+                        if (createdUserId > 0)
+                        {
+                            _logger.Info("Create User endpoint successful!", new { createdUserId });
+                            return Ok(new { createdUserId });
+                        }
+
+                        return StatusCode(StatusCodes.Status500InternalServerError);
                     }
 
-                    return StatusCode(StatusCodes.Status500InternalServerError);
+                    return StatusCode(StatusCodes.Status403Forbidden);
                 }
 
                 return Unauthorized();
