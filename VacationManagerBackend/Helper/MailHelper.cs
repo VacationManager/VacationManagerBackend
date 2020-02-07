@@ -23,12 +23,12 @@ namespace VacationManagerBackend.Helper
 
             try
             {
-                var smtpClient = new SmtpClient("smtp.gmail.com", 25);
+                var smtpClient = new SmtpClient("smtp.gmail.com", 587);
                 smtpClient.Credentials = new NetworkCredential("niklas.knoll.64@gmail.com", "NiklasKnoll99");
                 smtpClient.EnableSsl = true;
 
                 var mail = new MailMessage();
-                mail.From = new MailAddress("niklas.knoll@tobit.software");
+                mail.From = new MailAddress("niklas.knoll.64@gmail.com");
                 mail.To.Add(user.MailAddress);
                 mail.Subject = "Urlaubsantrag bestätigt!";
                 mail.Body = "Dein Urlaubsantrag wurde bestätigt!";
