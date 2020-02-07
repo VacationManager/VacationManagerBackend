@@ -61,4 +61,26 @@
     <Folder Include="Stored Procedures" />
     <Folder Include="Views" />
   </ItemGroup>
+  <ItemGroup>
+    <Build Include="Tables\User.sql" />
+    <Build Include="Tables\Department.sql" />
+    <Build Include="Tables\VacationRequest.sql" />
+    <Build Include="Tables\Configuration.sql" />
+    <Build Include="Tables\BusinessDay.sql" />
+    <Build Include="Views\viBusinessDay.sql" />
+    <Build Include="Views\viUser.sql" />
+    <Build Include="Views\viVacationRequest.sql" />
+    <Build Include="Views\viDepartment.sql" />
+    <Build Include="Views\viConfiguration.sql" />
+    <Build Include="Stored Procedures\spCreateVacationRequest.sql" />
+    <Build Include="Tables\VacationSlot.sql" />
+    <Build Include="Views\viVacationSlot.sql" />
+    <Build Include="Stored Procedures\spCreateDepartment.sql" />
+    <Build Include="Stored Procedures\spUpdateVacationRequest.sql" />
+    <Build Include="Stored Procedures\spSetUser.sql" />
+    <Build Include="Stored Procedures\spInitialize.sql" />
+    <Build Include="Stored Procedures\spInsertTestData.sql" />
+    <Build Include="Stored Procedures\spDeleteVacationRequest.sql" />
+    <Build Include="Stored Procedures\spDeleteVacationSlot.sql" />
+  </ItemGroup>
 </Project>
