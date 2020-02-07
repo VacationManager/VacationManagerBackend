@@ -50,5 +50,12 @@ AS
 				VacationDayCount = ISNULL(@VacationDayCount, VacationDayCount)
 			WHERE Id = @Id
 		END
+
+		ELSE
+		BEGIN
+			UPDATE [User]
+			SET DeleteTime = GETUTCDATE()
+			WHERE Id = @Id
+		END
 	END
 RETURN 0

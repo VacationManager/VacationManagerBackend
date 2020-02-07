@@ -9,6 +9,7 @@ namespace VacationManagerBackend.Interfaces.Repositories
         User GetUser(int? userId, string mailAddress);
         List<User> GetDepartmentUser(int departmentId);
         int CreateUser(InputUser user);
-        int SetUser(InputUser user);
+        int SetUser(InputUser user, bool delete);
+        void DeleteUser(int userId);
     }
 }

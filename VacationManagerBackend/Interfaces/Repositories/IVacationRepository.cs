@@ -13,5 +13,7 @@ namespace VacationManagerBackend.Interfaces.Repositories
         List<UserRequest> GetPendingRequests(int managerId);
         bool UpdateVacationRequest(VacationRequestDto request, int userId);
         List<VacationSlot> GetConfirmedVacationSlotsFromUser(int userId);
+        void DeleteVacationRequests(int userId);
+        void DeleteVacationSlots(int userId);
     }
 }

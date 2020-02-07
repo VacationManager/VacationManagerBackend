@@ -85,14 +85,21 @@ namespace VacationManagerBackend.Repositories
         {
             _logger.Info("Create User...", new { user });
             user.Id = null;
-            int userId = SetUser(user);
+            int userId = SetUser(user, false);
             _logger.Info("User successfully created!", new { userId });
             return userId;
         }
 
-        public int SetUser(InputUser user)
+        public void DeleteUser(int userId)
         {
-            _logger.Info("Set User...", new { user });
+            _logger.Info("Delete User...", new { userId });
+            SetUser(new InputUser() { Id = userId }, true);
+            _logger.Info("User successfully deleted!", new { userId });
+        }
+
+        public int SetUser(InputUser user, bool delete)
+        {
+            _logger.Info("Set User...", new { user, delete });
 
             using (var conn = _dbHelper.GetConnection())
             {
@@ -107,11 +114,12 @@ namespace VacationManagerBackend.Repositories
                 dParams.Add("@IsAdmin", user.IsAdmin);
                 dParams.Add("@VacationDayCount", user.VacationDayCount);
                 dParams.Add("@NewId", 0, direction: ParameterDirection.ReturnValue);
+                dParams.Add("@Delete", delete);
 
                 conn.Execute("spSetUser", dParams, commandType: CommandType.StoredProcedure);
                 int userId = dParams.Get<int>("@NewId");
 
-                _logger.Info("User successfully set!", new { userId });
+                _logger.Info("User successfully set!", new { userId, delete });
 
                 return userId;
             }

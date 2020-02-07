@@ -14,17 +14,20 @@ namespace VacationManagerBackend.Controllers
     {
         private readonly ILogger _logger;
         private readonly IUserRepository _userRepository;
+        private readonly IVacationRepository _vacationRepository;
         private readonly IAccessTokenHelper _accessTokenHelper;
         private readonly IAccessTokenProvider _accessTokenProvider;
 
         public UserController(
             ILogger<UserController> logger,
             IUserRepository userRepository,
+            IVacationRepository vacationRepository,
             IAccessTokenHelper accessTokenHelper,
             IAccessTokenProvider accessTokenProvider)
         {
             _logger = logger;
             _userRepository = userRepository;
+            _vacationRepository = vacationRepository;
             _accessTokenHelper = accessTokenHelper;
             _accessTokenProvider = accessTokenProvider;
         }
@@ -89,7 +92,7 @@ namespace VacationManagerBackend.Controllers
                 if (tokenPayload != null)
                 {
                     user.Id = tokenPayload.UserId;
-                    _userRepository.SetUser(user);
+                    _userRepository.SetUser(user, false);
 
                     _logger.Info("User successfully updated!", new { user, tokenPayload });
                     return NoContent();
@@ -141,6 +144,30 @@ namespace VacationManagerBackend.Controllers
             }
 
             return BadRequest();
+        }
+
+        [HttpDelete]
+        public IActionResult DeleteUser(int id)
+        {
+            _logger.Info("Delete User endpoint...", new { id });
+            var tokenPayload = _accessTokenProvider.GetTokenPayload();
+
+            if (tokenPayload != null)
+            {
+                if (tokenPayload.IsAdmin)
+                {
+                    _vacationRepository.DeleteVacationSlots(id);
+                    _vacationRepository.DeleteVacationRequests(id);
+                    _userRepository.DeleteUser(id);
+
+                    _logger.Info("Delete User endpoint successful!", new { id });
+                    return NoContent();
+                }
+
+                return StatusCode(StatusCodes.Status403Forbidden);
+            }
+
+            return Unauthorized();
         }
     }
 }
