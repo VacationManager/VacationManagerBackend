@@ -142,5 +142,23 @@ namespace VacationManagerBackend.Controllers
 
             return BadRequest();
         }
+
+        [HttpDelete]
+        public IActionResult DeleteUser(int id)
+        {
+            _logger.Info("Delete User endpoint...", new { id });
+            var tokenPayload = _accessTokenProvider.GetTokenPayload();
+
+            if (tokenPayload != null)
+            {
+                if (tokenPayload.IsAdmin)
+                {
+                }
+
+                return StatusCode(StatusCodes.Status403Forbidden);
+            }
+
+            return Unauthorized();
+        }
     }
 }
