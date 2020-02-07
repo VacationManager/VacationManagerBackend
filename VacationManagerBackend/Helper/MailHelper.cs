@@ -25,11 +25,11 @@ namespace VacationManagerBackend.Helper
             try
             {
                 var smtpClient = new SmtpClient("smtp.gmail.com", 587);
-                smtpClient.Credentials = new NetworkCredential("niklas.knoll.64@gmail.com", "NiklasKnoll99");
+                smtpClient.Credentials = new NetworkCredential("noreply.vacationmanager@gmail.com", "NiklasKnoll99");
                 smtpClient.EnableSsl = true;
 
                 var mail = new MailMessage();
-                mail.From = new MailAddress("niklas.knoll.64@gmail.com");
+                mail.From = new MailAddress("noreply.vacationmanager@gmail.com");
                 mail.To.Add(user.MailAddress);
                 mail.Subject = subject;
                 mail.Body = body;
