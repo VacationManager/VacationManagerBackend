@@ -100,7 +100,7 @@ namespace VacationManagerBackend.Controllers
             {
                 var updatedRequest = _vacationRepository.GetVacationRequest(request.RequestId);
                 var requestUser = _userRepository.GetUser(updatedRequest.UserId, null);
-                _mailHelper.SendMail(requestUser);
+                _mailHelper.SendVacationRequestStateMail(requestUser, updatedRequest);
             }
 
             return Ok();
