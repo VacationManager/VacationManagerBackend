@@ -16,15 +16,21 @@ namespace VacationManagerBackend.Controllers
         private readonly ILogger _logger;
         private readonly IAccessTokenProvider _accessTokenProvider;
         private readonly IVacationRepository _vacationRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly IMailHelper _mailHelper;
 
         public VacationController(
             ILogger<VacationController> logger,
             IAccessTokenProvider accessTokenProvider,
-            IVacationRepository vacationRepository)
+            IVacationRepository vacationRepository,
+            IUserRepository userRepository,
+            IMailHelper mailHelper)
         {
             _logger = logger;
             _accessTokenProvider = accessTokenProvider;
             _vacationRepository = vacationRepository;
+            _userRepository = userRepository;
+            _mailHelper = mailHelper;
         }
 
         [HttpGet]
@@ -106,6 +112,14 @@ namespace VacationManagerBackend.Controllers
             {
                 return StatusCode(403);
             }
+
+            if (request.NewState != null && request.NewState != VacationRequestState.Pending)
+            {
+                var updatedRequest = _vacationRepository.GetVacationRequest(request.RequestId);
+                var requestUser = _userRepository.GetUser(updatedRequest.UserId, null);
+                _mailHelper.SendVacationRequestStateMail(requestUser, updatedRequest);
+            }
+
             return Ok();
         }
     }
