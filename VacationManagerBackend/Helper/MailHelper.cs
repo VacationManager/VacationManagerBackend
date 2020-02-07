@@ -48,7 +48,7 @@ namespace VacationManagerBackend.Helper
         public void SendVacationRequestStateMail(User user, VacationRequest request)
         {
             _logger.Info("Send VacationRequestStateMail...", new { user, request });
-            SendMail(user, "Urlaubsantrag", $"Dein Urlaubsantrag vom {request.StartTime.ToString("dd.MM.yyyy")} bis zum {request.EndTime.ToString("dd.MM.yyyy")} wurde {(request.RequestState == VacationRequestState.Confirmed ? "bestätigt" : "abgelehnt")}.");
+            SendMail(user, $"Urlaubsantrag {(request.RequestState == VacationRequestState.Confirmed ? "bestätigt" : "abgelehnt")}", $"Dein Urlaubsantrag vom {request.StartTime.ToString("dd.MM.yyyy")} bis zum {request.EndTime.ToString("dd.MM.yyyy")} wurde {(request.RequestState == VacationRequestState.Confirmed ? "bestätigt" : "abgelehnt")}.");
             _logger.Info("VacationRequestStateMail successfully send!", new { user, request });
         }
     }
