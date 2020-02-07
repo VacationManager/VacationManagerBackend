@@ -57,10 +57,12 @@ namespace VacationManagerBackend.Repositories
         {
             const string cmd = "[spCreateDepartment]";
             var param = new DynamicParameters(new { name = departmentName });
+            param.Add("@departmentId", direction: ParameterDirection.ReturnValue);
 
             using (var con = _dbHelper.GetConnection())
             {
-                return con.QueryFirstOrDefault<int>(cmd, param, commandType: CommandType.StoredProcedure);
+                con.Execute(cmd, param, commandType: CommandType.StoredProcedure);
+                return param.Get<int>("@departmentId");
             }
         }
     }

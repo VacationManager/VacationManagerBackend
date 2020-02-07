@@ -14,7 +14,34 @@ AS
 	DECLARE @depId INT
 	EXEC @depId = [spCreateDepartment] @initDepartmentName
 
-	EXEC [spSetUser] NULL, @depId, @initUserFirstName, @initUserLastName, @initUserMail, @initUserPassword, 1, 1, 28
+	INSERT INTO [User] (
+		[DepartmentId],
+		[FirstName],
+		[LastName],
+		[MailAddress],
+		[Password],
+		[IsManager],
+		[IsAdmin],
+		[VacationDayCount]
+	) VALUES (
+		@depId,
+		@initUserFirstName,
+		@initUserLastName,
+		@initUserMail,
+		@initUserPassword,
+		1,
+		1,
+		28
+	)
+
+	DECLARE @userId int = SCOPE_IDENTITY()
+
+	SELECT @userId [UserId]
+	,@depId [DepartmentId]
+	,@initUserLastName [LastName]
+	,@initUserFirstName [FirstName]
+	,1 [IsManager]
+	,1 [IsAdmin]
 
 	DECLARE @i INT = 1
 	WHILE (@i <= 5)

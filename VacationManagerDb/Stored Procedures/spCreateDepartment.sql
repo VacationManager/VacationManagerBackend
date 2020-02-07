@@ -8,6 +8,5 @@ AS
 	)
 
 	DECLARE @depId INT = SCOPE_IDENTITY()
-	SELECT @depId
 
 	RETURN @depId

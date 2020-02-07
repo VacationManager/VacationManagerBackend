@@ -88,7 +88,7 @@ namespace VacationManagerBackend.Controllers
 
             request.UserId = user.UserId;
             _vacationRepository.CreateVacationRequest(request);
-            return Ok();
+            return StatusCode(201);
         }
 
         [HttpPatch]
@@ -113,14 +113,14 @@ namespace VacationManagerBackend.Controllers
                 return StatusCode(403);
             }
 
-            if (request.NewState != null && request.NewState != VacationRequestState.Pending)
+            if (request.NewState != VacationRequestState.Pending)
             {
                 var updatedRequest = _vacationRepository.GetVacationRequest(request.RequestId);
                 var requestUser = _userRepository.GetUser(updatedRequest.UserId, null);
                 _mailHelper.SendVacationRequestStateMail(requestUser, updatedRequest);
             }
 
-            return Ok();
+            return Accepted();
         }
     }
 }

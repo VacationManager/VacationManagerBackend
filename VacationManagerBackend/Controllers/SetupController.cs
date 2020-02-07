@@ -39,10 +39,11 @@ namespace VacationManagerBackend.Controllers
                 _logger.Error("Invalid initialize data", new { data });
                 return BadRequest();
             }
-            if (_configurationRepository.SetupConfig(data))
+            var result = _configurationRepository.SetupConfig(data);
+            if (result != null)
             {
                 _logger.Info("VacationManager initialized", new { setupData = data });
-                return StatusCode(201);
+                return StatusCode(201, result);
             }
             return Conflict();
         }

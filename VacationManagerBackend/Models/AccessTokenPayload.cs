@@ -23,5 +23,7 @@ namespace VacationManagerBackend.Models
             IsManager = user.IsManager;
             IsAdmin = user.IsAdmin;
         }
+
+        public AccessTokenPayload() { }
     }
 }

@@ -51,7 +51,7 @@ AS
 	EXEC [spSetUser] NULL, @depId, @firstName, @lastName, @mail, @pw, 0, 0, 28
 
 	SET @userId = @@IDENTITY
-	EXEC [spCreateVacationRequest] @userId, '2021-01-02 00:00', '2021-07-12 12:00', null, @holidays
+	EXEC [spCreateVacationRequest] @userId, '2021-01-02 00:00', '2021-01-12 12:00', null, @holidays
 
 
 
