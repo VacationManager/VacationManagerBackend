@@ -36,7 +36,7 @@ AS
 
 	DECLARE @userId int = SCOPE_IDENTITY()
 
-	SELECT @userId [UserId]
+	SELECT @userId [Id]
 	,@depId [DepartmentId]
 	,@initUserLastName [LastName]
 	,@initUserFirstName [FirstName]

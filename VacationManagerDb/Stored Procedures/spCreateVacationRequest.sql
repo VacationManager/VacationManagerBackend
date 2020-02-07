@@ -69,11 +69,13 @@ AS
 		,[StartTime]
 		,[EndTime]
 		,[Annotation]
+		,[RequestState]
 	) VALUES (
 		@userId
 		,@startTime
 		,@endTime
 		,@annotation
+		,CASE WHEN (SELECT TOP 1 [IsManager] FROM [viUser] WHERE [Id] = @userId) = 1 THEN 1 ELSE 0 END
 	)
 	DECLARE @requestId int = SCOPE_IDENTITY()
 
