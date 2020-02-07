@@ -18,7 +18,8 @@ namespace VacationManagerBackend.Repositories
         public Configuration GetConfiguration()
         {
             const string query = @"SELECT TOP 1 [DefaultDayCount]
-                                                ,[CreationTime]";
+                                                ,[CreationTime]
+                                            FROM [viConfiguration]";
 
             using (var con = _dbHelper.GetConnection())
             {
@@ -33,7 +34,7 @@ namespace VacationManagerBackend.Repositories
             {
                 initUserFirstName = data.FirstName,
                 initUserLastName = data.LastName,
-                initUserMail = data.MailAddress,
+                initUserMail = data.MailAddress ?? $"{data.FirstName}.{data.LastName}@example.com",
                 initUserPassword = data.Password,
                 initDepartmentName = data.DepartmentName,
                 defaultDayCount = data.DefaultDayCount ?? 28

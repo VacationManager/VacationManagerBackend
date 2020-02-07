@@ -15,6 +15,7 @@ namespace VacationManagerBackend.Controllers
         public SetupController(ILogger<SetupController> logger, IConfigurationRepository configurationRepository)
         {
             _configurationRepository = configurationRepository;
+            _logger = logger;
         }
 
         [HttpGet("config")]

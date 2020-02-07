@@ -8,7 +8,6 @@ namespace VacationManagerBackend.Models
         public string FirstName { get; set; }
         [Required]
         public string LastName { get; set; }
-        [Required]
         public string MailAddress { get; set; }
         [Required]
         public string Password { get; set; }
