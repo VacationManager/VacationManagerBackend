@@ -14,17 +14,20 @@ namespace VacationManagerBackend.Controllers
     {
         private readonly ILogger _logger;
         private readonly IUserRepository _userRepository;
+        private readonly IVacationRepository _vacationRepository;
         private readonly IAccessTokenHelper _accessTokenHelper;
         private readonly IAccessTokenProvider _accessTokenProvider;
 
         public UserController(
             ILogger<UserController> logger,
             IUserRepository userRepository,
+            IVacationRepository vacationRepository,
             IAccessTokenHelper accessTokenHelper,
             IAccessTokenProvider accessTokenProvider)
         {
             _logger = logger;
             _userRepository = userRepository;
+            _vacationRepository = vacationRepository;
             _accessTokenHelper = accessTokenHelper;
             _accessTokenProvider = accessTokenProvider;
         }
@@ -153,6 +156,12 @@ namespace VacationManagerBackend.Controllers
             {
                 if (tokenPayload.IsAdmin)
                 {
+                    _vacationRepository.DeleteVacationSlots(id);
+                    _vacationRepository.DeleteVacationRequests(id);
+                    _userRepository.DeleteUser(id);
+
+                    _logger.Info("Delete User endpoint successful!", new { id });
+                    return NoContent();
                 }
 
                 return StatusCode(StatusCodes.Status403Forbidden);

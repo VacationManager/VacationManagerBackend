@@ -79,5 +79,7 @@
     <Build Include="Stored Procedures\spUpdateVacationRequest.sql" />
     <Build Include="Stored Procedures\spSetUser.sql" />
     <Build Include="Stored Procedures\spInitialize.sql" />
+    <Build Include="Stored Procedures\spDeleteVacationRequest.sql" />
+    <Build Include="Stored Procedures\spDeleteVacationSlot.sql" />
   </ItemGroup>
 </Project>

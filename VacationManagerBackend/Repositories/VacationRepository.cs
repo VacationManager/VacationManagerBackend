@@ -170,5 +170,33 @@ namespace VacationManagerBackend.Repositories
                 return param.Get<int>("@isAllowed") == 1;
             }
         }
+
+        public void DeleteVacationRequests(int userId)
+        {
+            _logger.Info("Delete VacationRequests...", new { userId });
+
+            using (var conn = _dbHelper.GetConnection())
+            {
+                var dParams = new DynamicParameters();
+                dParams.Add("@UserId", userId);
+
+                conn.Execute("spDeleteVacationRequest", dParams, commandType: CommandType.StoredProcedure);
+                _logger.Info("VacationRequests successfully deleted!");
+            }
+        }
+
+        public void DeleteVacationSlots(int userId)
+        {
+            _logger.Info("Delete VacationSlots...", new { userId });
+
+            using (var conn = _dbHelper.GetConnection())
+            {
+                var dParams = new DynamicParameters();
+                dParams.Add("@UserId", userId);
+
+                conn.Execute("spDeleteVacationSlot", dParams, commandType: CommandType.StoredProcedure);
+                _logger.Info("VacationSlots successfully deleted!", new { userId });
+            }
+        }
     }
 }
