@@ -89,7 +89,7 @@ namespace VacationManagerBackend.Controllers
                 if (tokenPayload != null)
                 {
                     user.Id = tokenPayload.UserId;
-                    _userRepository.SetUser(user);
+                    _userRepository.SetUser(user, false);
 
                     _logger.Info("User successfully updated!", new { user, tokenPayload });
                     return NoContent();
